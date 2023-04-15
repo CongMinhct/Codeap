@@ -1,0 +1,291 @@
+1.Class BakeryManagement
+
+public class BakeryManagement {
+    private String name;
+    private double price;
+
+    public BakeryManagement(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+}
+
+2. CLass Hamburger
+class Hamburger extends BakeryManagement {
+    private String meat;
+    private String bread;
+    private String toppings;
+
+    public Hamburger(String name, double price, String meat, String bread, String toppings) {
+        super(name, price);
+        this.meat = meat;
+        this.bread = bread;
+        this.toppings = toppings;
+    }
+
+    public String getMeat() {
+        return meat;
+    }
+
+    public void setMeat(String meat) {
+        this.meat = meat;
+    }
+
+    public String getBread() {
+        return bread;
+    }
+
+    public void setBread(String bread) {
+        this.bread = bread;
+    }
+
+    public String getToppings() {
+        return toppings;
+    }
+
+    public void setToppings(String toppings) {
+        this.toppings = toppings;
+    }
+}
+
+3. Class Sandwich
+
+class Sandwich extends BakeryManagement {
+    private String filling;
+    private String bread;
+    private String condiments;
+
+    public Sandwich(String name, double price, String filling, String bread, String condiments) {
+        super(name, price);
+        this.filling = filling;
+        this.bread = bread;
+        this.condiments = condiments;
+    }
+
+    public String getFilling() {
+        return filling;
+    }
+
+    public void setFilling(String filling) {
+        this.filling = filling;
+    }
+
+    public String getBread() {
+        return bread;
+    }
+
+    public void setBread(String bread) {
+        this.bread = bread;
+    }
+
+    public String getCondiments() {
+        return condiments;
+    }
+
+    public void setCondiments(String condiments) {
+        this.condiments = condiments;
+    }
+}
+
+4. Class BakeryManagementProgram
+
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+
+public class BakeryManagementProgram {
+    public static void main(String[] args) {
+        ArrayList<BakeryManagement> items = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        boolean exit = false;
+
+        while (!exit) {
+            System.out.println("Please select an option:");
+            System.out.println("1. Add item");
+            System.out.println("2. Edit item");
+            System.out.println("3. Delete item");
+            System.out.println("4. Display all items");
+            System.out.println("5. Search item");
+            System.out.println("6. Exit");
+            System.out.println();
+            System.out.print("Enter your choice: ");
+            try {
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (choice) {
+                    case 1:
+                        addItem(items, scanner);
+                        break;
+                    case 2:
+                        editItem(items, scanner);
+                        break;
+                    case 3:
+                        deleteItem(items, scanner);
+                        break;
+                    case 4:
+                        displayAllItems(items);
+                        break;
+                    case 5:
+                        searchItem(items, scanner);
+                        break;
+                    case 6:
+                        exit = true;
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please try again.");
+                scanner.nextLine(); // clear input buffer
+            }
+        }
+    }
+     public static void addItem(ArrayList<BakeryManagement> items, Scanner scanner) {
+                 System.out.println("Please enter the type of item (1 for hamburger, 2 for sandwich):");
+        int itemType = scanner.nextInt();
+        scanner.nextLine();
+        
+        System.out.println("Please enter the name of the item:");
+        String name = scanner.nextLine();
+        
+        System.out.println("Please enter the price of the item:");
+        double price = scanner.nextDouble();
+        scanner.nextLine();
+        
+        if (itemType == 1) {
+            System.out.println("Please enter the type of meat:");
+            String meat = scanner.nextLine();
+            
+            System.out.println("Please enter the type of bread:");
+            String bread = scanner.nextLine();
+            
+            System.out.println("Please enter the toppings:");
+            String toppings = scanner.nextLine();
+            
+            Hamburger hamburger = new Hamburger(name, price, meat, bread, toppings);
+            items.add(hamburger);
+            System.out.println("Hamburger added successfully.");
+        } else if (itemType == 2) {
+            System.out.println("Please enter the type of filling:");
+            String filling = scanner.nextLine();
+            
+            System.out.println("Please enter the type of bread:");
+            String bread = scanner.nextLine();
+            
+            System.out.println("Please enter the condiments:");
+            String condiments = scanner.nextLine();
+            
+            Sandwich sandwich = new Sandwich(name, price, filling, bread, condiments);
+            items.add(sandwich);
+            System.out.println("Sandwich added successfully.");
+        } else {
+            System.out.println("Invalid item type. Please try again.");
+        }
+    }
+    
+    public static void editItem(ArrayList<BakeryManagement> items, Scanner scanner) {
+        System.out.println("Please enter the name of the item to edit:");
+        String name = scanner.nextLine();
+        
+        BakeryManagement item = findItem(items, name);
+        
+        if (item != null) {
+            System.out.println("Please enter the new price of the item:");
+            double price = scanner.nextDouble();
+            scanner.nextLine();
+            
+            item.setPrice(price);
+            System.out.println("Item edited successfully.");
+        } else {
+            System.out.println("Item not found. Please try again.");
+        }
+    }
+    
+    public static void deleteItem(ArrayList<BakeryManagement> items, Scanner scanner) {
+        System.out.println("Please enter the name of the item to delete:");
+        String name = scanner.nextLine();
+        
+        BakeryManagement item = findItem(items, name);
+        
+        if (item != null) {
+            items.remove(item);
+            System.out.println("Item deleted successfully.");
+        } else {
+            System.out.println("Item not found. Please try again.");
+        }
+    }
+    
+    public static void displayAllItems(ArrayList<BakeryManagement> items) {
+        if (items.isEmpty()) {
+            System.out.println("No items to display.");
+        } else {
+            for (BakeryManagement item : items) {
+                System.out.println("Name: " + item.getName());
+                System.out.println("Price: " + item.getPrice());
+                if (item instanceof Hamburger) {
+                    Hamburger hamburger = (Hamburger) item;
+                    System.out.println("Meat: " + hamburger.getMeat());
+                    System.out.println("Bread: " + hamburger.getBread());
+                    System.out.println("Toppings: " + hamburger.getToppings());
+                } else if (item instanceof Sandwich) {
+                    Sandwich sandwich = (Sandwich) item;
+                    System.out.println("Filling: " + sandwich.getFilling());
+                    System.out.println("Bread: " + sandwich.getBread());
+                    System.out.println("Condiments: " + sandwich.getCondiments());
+                }
+                System.out.println();
+            }
+        }
+    }
+    public static void searchItem(ArrayList<BakeryManagement> items, Scanner scanner) {
+        System.out.println("Please enter the name of the item to search for:");
+        String name = scanner.nextLine();
+        
+        BakeryManagement item = findItem(items, name);
+        
+        if (item != null) {
+            System.out.println("Name: " + item.getName());
+            System.out.println("Price: " + item.getPrice());
+            if (item instanceof Hamburger) {
+                Hamburger hamburger = (Hamburger) item;
+                System.out.println("Meat: " + hamburger.getMeat());
+                System.out.println("Bread: " + hamburger.getBread());
+                System.out.println("Toppings: " + hamburger.getToppings());
+            } else if (item instanceof Sandwich) {
+                Sandwich sandwich = (Sandwich) item;
+                System.out.println("Filling: " + sandwich.getFilling());
+                System.out.println("Bread: " + sandwich.getBread());
+                System.out.println("Condiments: " + sandwich.getCondiments());
+            }
+        } else {
+            System.out.println("Item not found. Please try again.");
+        }
+    }
+    public static BakeryManagement findItem(ArrayList<BakeryManagement> items, String name) {
+        for (BakeryManagement item : items) {
+            if (item.getName().equals(name)) {
+                return item;
+            }
+        }
+        return null;
+    }
+    
+}
